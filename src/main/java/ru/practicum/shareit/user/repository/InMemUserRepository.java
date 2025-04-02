@@ -35,7 +35,7 @@ public class InMemUserRepository implements UserRepository {
             user.setId(generator.incrementAndGet());
         }
         storage.put(user.getId(), user);
-        emailSet.add(email);
+        emailSet.add(email.toLowerCase());
         return user;
     }
 
@@ -68,8 +68,8 @@ public class InMemUserRepository implements UserRepository {
                 if (existsByEmail(newEmail)) {
                     throw new ConflictException("Email already used");
                 }
-                emailSet.remove(existing.getEmail());
-                emailSet.add(newEmail);
+                emailSet.remove(existing.getEmail().toLowerCase());
+                emailSet.add(newEmail.toLowerCase());
                 existing.setEmail(newEmail);
             }
         }
@@ -87,6 +87,6 @@ public class InMemUserRepository implements UserRepository {
         if (email == null) {
             return false;
         }
-        return emailSet.stream().anyMatch(e -> e.equalsIgnoreCase(email));
+        return emailSet.contains(email.toLowerCase());
     }
 }
