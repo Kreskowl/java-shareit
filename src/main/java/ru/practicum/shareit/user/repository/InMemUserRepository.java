@@ -60,7 +60,7 @@ public class InMemUserRepository implements UserRepository {
         User existing = ifExists(id);
         String originalEmail = existing.getEmail();
 
-        mapper.createUpdateDtoToUser(dto, existing);
+        mapper.updateDtoToUser(dto, existing);
 
         if (dto.getEmail() != null) {
             String newEmail = dto.getEmail();

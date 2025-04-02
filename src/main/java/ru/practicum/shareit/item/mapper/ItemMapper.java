@@ -11,8 +11,9 @@ import ru.practicum.shareit.item.model.Item;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ItemMapper {
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "request", ignore = true)
     Item createDtoToItem(ItemCreateDto dto);
-
 
     @Mapping(target = "ownerId", ignore = true)
     @Mapping(target = "request", ignore = true)
