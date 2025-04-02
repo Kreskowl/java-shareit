@@ -1,32 +1,41 @@
 package ru.practicum.shareit.user.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.user.dto.UserUpdateDto;
+import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
+@RequiredArgsConstructor
 public class InMemUserRepository implements UserRepository {
-    private final Map<Long, User> storage = new HashMap<>();
+    private final Map<Long, User> storage;
+    private final Set<String> emailSet;
+    private final UserMapper mapper;
     private final AtomicLong generator = new AtomicLong(0);
 
     @Override
     public User save(User user) {
-        if (existsByEmail(user.getEmail())) {
+        String email = user.getEmail();
+
+        if (existsByEmail(email)) {
             throw new ConflictException("email already used");
         }
-        ;
+
         if (user.getId() == null) {
             user.setId(generator.incrementAndGet());
         }
         storage.put(user.getId(), user);
+        emailSet.add(email);
         return user;
     }
 
@@ -47,13 +56,24 @@ public class InMemUserRepository implements UserRepository {
     }
 
     @Override
-    public User update(long id, User updated) {
+    public User update(long id, UserUpdateDto dto) {
         User existing = ifExists(id);
-        existing.setName(updated.getName());
-        if (existsByEmail(updated.getEmail())) {
-            throw new ConflictException("email already used");
+        String originalEmail = existing.getEmail();
+
+        mapper.createUpdateDtoToUser(dto, existing);
+
+        if (dto.getEmail() != null) {
+            String newEmail = dto.getEmail();
+            if (!originalEmail.equalsIgnoreCase(newEmail)) {
+                if (existsByEmail(newEmail)) {
+                    throw new ConflictException("Email already used");
+                }
+                emailSet.remove(existing.getEmail());
+                emailSet.add(newEmail);
+                existing.setEmail(newEmail);
+            }
         }
-        existing.setEmail(updated.getEmail());
+
         storage.put(existing.getId(), existing);
         return existing;
     }
@@ -63,12 +83,10 @@ public class InMemUserRepository implements UserRepository {
                 .orElseThrow(() -> new NotFoundException("user with id " + id + " not found"));
     }
 
-    public boolean existsByEmail(String email) {
+    private boolean existsByEmail(String email) {
         if (email == null) {
             return false;
         }
-        return storage.values().stream()
-                .filter(u -> u.getEmail() != null)
-                .anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
+        return emailSet.stream().anyMatch(e -> e.equalsIgnoreCase(email));
     }
 }

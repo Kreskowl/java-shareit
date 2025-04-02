@@ -1,10 +1,10 @@
 package ru.practicum.shareit.item.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,17 +12,17 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class InMemItemRepository implements ItemRepository {
-    private final Map<Long, Item> storage = new HashMap<>();
+    private final Map<Long, Item> storage;
     private final AtomicLong generator = new AtomicLong(0);
 
     @Override
-    public Item save(Item item, long ownerId) {
+    public Item save(Item item) {
         if (item.getId() == null) {
             item.setId(generator.incrementAndGet());
         }
 
-        item.setOwnerId(ownerId);
         storage.put(item.getId(), item);
         return item;
     }
@@ -48,16 +48,7 @@ public class InMemItemRepository implements ItemRepository {
     @Override
     public Item update(Item updated) {
         Item exist = ifExists(updated.getId());
-
-        if (updated.getName() != null) {
-            exist.setName(updated.getName());
-        }
-        if (updated.getDescription() != null) {
-            exist.setDescription(updated.getDescription());
-        }
-        exist.setAvailable(updated.getAvailable());
         storage.put(exist.getId(), exist);
-
         return exist;
     }
 

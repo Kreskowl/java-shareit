@@ -2,6 +2,7 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.user.dto.UserUpdateDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
@@ -28,7 +29,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User update(long id, User updated) {
-        return userRepository.update(id, updated);
+    public User update(long id, UserUpdateDto dto) {
+        return userRepository.update(id, dto);
     }
 }

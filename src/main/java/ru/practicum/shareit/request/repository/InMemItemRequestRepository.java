@@ -1,19 +1,20 @@
 package ru.practicum.shareit.request.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.request.model.ItemRequest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
+@RequiredArgsConstructor
 public class InMemItemRequestRepository implements ItemRequestRepository {
-    private final Map<Long, ItemRequest> storage = new HashMap<>();
+    private final Map<Long, ItemRequest> storage;
     private final AtomicLong generator = new AtomicLong(0);
 
     @Override

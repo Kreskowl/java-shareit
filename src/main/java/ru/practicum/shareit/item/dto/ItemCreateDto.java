@@ -7,9 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)

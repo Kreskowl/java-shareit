@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemUpdateDto;
+import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.repository.UserRepository;
@@ -15,10 +16,11 @@ import java.util.List;
 public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final ItemMapper mapper;
 
-    public Item createItem(Item item, long ownerId) {
-        userRepository.findById(ownerId);
-        return itemRepository.save(item, ownerId);
+    public Item createItem(Item item) {
+        userRepository.findById(item.getOwnerId());
+        return itemRepository.save(item);
     }
 
     public List<Item> findAllByOwnerId(long ownerId) {
@@ -39,16 +41,7 @@ public class ItemService {
             throw new NotFoundException("User with id " + ownerId + " is not the owner of this item");
         }
 
-        if (updatedDto.getName() != null) {
-            item.setName(updatedDto.getName());
-        }
-        if (updatedDto.getDescription() != null) {
-            item.setDescription(updatedDto.getDescription());
-        }
-        if (updatedDto.getAvailable() != null) {
-            item.setAvailable(updatedDto.getAvailable());
-        }
-
+        mapper.updateItemFromDto(updatedDto, item);
         return itemRepository.update(item);
     }
 

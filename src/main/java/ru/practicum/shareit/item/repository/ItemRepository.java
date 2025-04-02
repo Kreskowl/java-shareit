@@ -5,7 +5,7 @@ import ru.practicum.shareit.item.model.Item;
 import java.util.List;
 
 public interface ItemRepository {
-    Item save(Item item, long ownerId);
+    Item save(Item item);
 
     Item findById(Long id);
 

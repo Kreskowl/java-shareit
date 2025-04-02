@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -11,8 +12,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
+@RequiredArgsConstructor
 public class InMemBookingRepository implements BookingRepository {
-    private final HashMap<Long, Booking> storage = new HashMap<>();
+    private final HashMap<Long, Booking> storage;
     private final AtomicLong generator = new AtomicLong(0);
 
     @Override
