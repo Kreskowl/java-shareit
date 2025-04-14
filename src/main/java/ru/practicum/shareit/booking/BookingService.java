@@ -1,34 +1,21 @@
 package ru.practicum.shareit.booking;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.booking.repository.BookingRepository;
+import ru.practicum.shareit.booking.dto.BookingCreateDto;
+import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.model.BookingState;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class BookingService {
-    private final BookingRepository storage;
+public interface BookingService {
+    BookingDto createBooking(BookingCreateDto dto, Long userId);
 
-    public Booking createBooking(Booking booking) {
-        return storage.save(booking);
-    }
+    BookingDto updateStatusByOwner(long bookingId, long ownerId, boolean approved);
 
-    public Booking findById(long id) {
-        return storage.findById(id);
-    }
+    BookingDto findById(long id);
 
-    public List<Booking> findAll() {
-        return storage.findAll();
-    }
+    List<BookingDto> getAllCurrentBookings(Long userId, BookingState status);
 
-    public void deleteById(long id) {
-        storage.deleteById(id);
-    }
+    List<BookingDto> getAllBookedItems(Long userId, BookingState status);
 
-    public void update(Booking booking) {
-        storage.update(booking);
-    }
+    void deleteById(long id);
 }

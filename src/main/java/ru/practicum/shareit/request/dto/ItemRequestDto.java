@@ -19,7 +19,7 @@ public class ItemRequestDto {
     @NotBlank
     private String description;
     @NotNull
-    private User requester;
+    private Long requesterId;
     @FutureOrPresent
     private LocalDateTime created;
 }

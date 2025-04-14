@@ -119,5 +119,16 @@ public class GlobalExceptionHandler {
                 ex.getMessage()
         );
     }
+
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleForbiddenException(ForbiddenException forbiddenException) {
+        logger.error("Forbidden: {} ", forbiddenException.getMessage());
+        return new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "User is not the owner: ",
+                forbiddenException.getMessage()
+        );
+    }
 }
 
