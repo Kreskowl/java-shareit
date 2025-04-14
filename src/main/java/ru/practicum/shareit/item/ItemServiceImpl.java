@@ -84,7 +84,6 @@ public class ItemServiceImpl implements ItemService {
 
         dto.setComments(getCommentsMap(List.of(id)).getOrDefault(id, Collections.emptyList()));
 
-        // lastBooking и nextBooking — только если владелец
         if (Objects.equals(item.getOwnerId(), userId)) {
             dto.setLastBooking(getLastBookingsMap(List.of(id)).get(id));
             dto.setNextBooking(getNextBookingsMap(List.of(id)).get(id));
@@ -163,7 +162,7 @@ public class ItemServiceImpl implements ItemService {
                 .collect(Collectors.toMap(
                         Booking::getItemId,
                         booking -> new BookingShortDto(booking.getId(), booking.getRenterId()),
-                        (b1, b2) -> b1 // если два — берём любой
+                        (b1, b2) -> b1
                 ));
     }
 
