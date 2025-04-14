@@ -20,9 +20,9 @@ import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.CommentRepository;
-import ru.practicum.shareit.item.repository.ItemRepositoryImpl;
+import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.repository.UserRepositoryImpl;
+import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -37,9 +37,9 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Slf4j
 public class ItemServiceImpl implements ItemService {
-    private final ItemRepositoryImpl repository;
+    private final ItemRepository repository;
     private final CommentRepository commentRepository;
-    private final UserRepositoryImpl userRepository;
+    private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
     private final ItemMapper mapper;
 
