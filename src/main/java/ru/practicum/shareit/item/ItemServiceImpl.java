@@ -47,11 +47,13 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public ItemResponseDto createItem(ItemCreateDto dto) {
         try {
-            Item item = repository.save(mapper.createDtoToItem(dto));
-            return mapper.itemToDto(item);
-        } catch (DataIntegrityViolationException exception) {
-            throw new NotFoundException("User with id " + dto.getOwnerId() + " not found (FK violation)");
+            userRepository.findById(dto.getOwnerId());
+        } catch (DataIntegrityViolationException userException) {
+            throw new NotFoundException("User with id " + dto.getOwnerId() + " not found");
         }
+
+        Item item = repository.save(mapper.createDtoToItem(dto));
+        return mapper.itemToDto(item);
     }
 
     @Override
