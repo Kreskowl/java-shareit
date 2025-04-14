@@ -46,12 +46,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public ItemResponseDto createItem(ItemCreateDto dto) {
-        try {
-            userRepository.findById(dto.getOwnerId());
-        } catch (DataIntegrityViolationException userException) {
-            throw new NotFoundException("User with id " + dto.getOwnerId() + " not found");
-        }
-
+        userRepository.findById(dto.getOwnerId())
+                .orElseThrow(() -> new NotFoundException("User with id " + dto.getOwnerId() + " not found"));
         Item item = repository.save(mapper.createDtoToItem(dto));
         return mapper.itemToDto(item);
     }
