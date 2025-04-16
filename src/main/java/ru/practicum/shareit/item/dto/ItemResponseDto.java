@@ -5,10 +5,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import ru.practicum.shareit.request.model.ItemRequest;
+import lombok.Getter;
+import lombok.Setter;
+import ru.practicum.shareit.booking.dto.BookingShortDto;
 
-@Data
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class ItemResponseDto {
@@ -20,5 +25,9 @@ public class ItemResponseDto {
     private Long ownerId;
     @NotNull
     private Boolean available;
-    private ItemRequest request;
+    private Long requestId;
+    @Builder.Default
+    private List<CommentDto> comments = new ArrayList<>();
+    private BookingShortDto lastBooking;
+    private BookingShortDto nextBooking;
 }

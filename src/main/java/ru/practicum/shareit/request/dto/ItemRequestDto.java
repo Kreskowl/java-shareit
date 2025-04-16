@@ -7,7 +7,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +18,7 @@ public class ItemRequestDto {
     @NotBlank
     private String description;
     @NotNull
-    private User requester;
+    private Long requesterId;
     @FutureOrPresent
     private LocalDateTime created;
 }

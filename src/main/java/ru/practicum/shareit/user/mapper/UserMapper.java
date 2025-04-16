@@ -13,6 +13,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     User createDtoToUser(UserDto create);
 
+    @Mapping(target = "id", ignore = true)
     void updateDtoToUser(UserUpdateDto update, @MappingTarget User user);
 
     UserDto userToDto(User user);

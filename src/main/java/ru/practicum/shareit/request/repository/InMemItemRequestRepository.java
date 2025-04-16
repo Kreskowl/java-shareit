@@ -46,7 +46,7 @@ public class InMemItemRequestRepository implements ItemRequestRepository {
     public void update(ItemRequest itemRequest) {
         ItemRequest exist = findById(itemRequest.getId());
         exist.setDescription(itemRequest.getDescription());
-        exist.setRequester(itemRequest.getRequester());
+        exist.setRequesterId(itemRequest.getRequesterId());
         storage.put(exist.getId(), exist);
     }
 
