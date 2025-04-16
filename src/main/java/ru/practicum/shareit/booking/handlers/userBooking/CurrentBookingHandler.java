@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking.handlers;
+package ru.practicum.shareit.booking.handlers.userBooking;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

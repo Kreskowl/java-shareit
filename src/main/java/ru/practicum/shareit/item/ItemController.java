@@ -30,20 +30,20 @@ public class ItemController {
     private final ItemService service;
 
     @PostMapping
-    public ItemResponseDto createItem(@RequestHeader(value = UserIdHeader.USER_ID_HEADER) Long ownerId,
+    public ItemResponseDto createItem(@RequestHeader(value = ShareConstants.USER_ID_HEADER) Long ownerId,
                                       @RequestBody @Valid ItemCreateDto dto) {
         dto.setOwnerId(ownerId);
         return service.createItem(dto);
     }
 
     @GetMapping("/{itemId}")
-    public ItemResponseDto getItem(@RequestHeader(value = UserIdHeader.USER_ID_HEADER) long userId,
+    public ItemResponseDto getItem(@RequestHeader(value = ShareConstants.USER_ID_HEADER) long userId,
                                    @PathVariable long itemId) {
         return service.findById(itemId, userId);
     }
 
     @GetMapping
-    public List<ItemResponseDto> getAllUserItems(@RequestHeader(value = UserIdHeader.USER_ID_HEADER) Long ownerId) {
+    public List<ItemResponseDto> getAllUserItems(@RequestHeader(value = ShareConstants.USER_ID_HEADER) Long ownerId) {
         return service.findAllByOwnerId(ownerId);
     }
 
@@ -53,13 +53,13 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ItemResponseDto update(@RequestHeader(value = UserIdHeader.USER_ID_HEADER) Long ownerId,
+    public ItemResponseDto update(@RequestHeader(value = ShareConstants.USER_ID_HEADER) Long ownerId,
                                   @PathVariable long itemId, @RequestBody @Valid ItemUpdateDto updatedDto) {
         return service.update(ownerId, itemId, updatedDto);
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto addComment(@RequestHeader(value = UserIdHeader.USER_ID_HEADER) Long authorId,
+    public CommentDto addComment(@RequestHeader(value = ShareConstants.USER_ID_HEADER) Long authorId,
                                  @PathVariable Long itemId,
                                  @RequestBody @Valid CommentCreateDto dto) {
         return service.addComment(itemId, authorId, dto);

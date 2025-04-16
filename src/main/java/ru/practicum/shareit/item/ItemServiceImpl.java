@@ -45,8 +45,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public ItemResponseDto createItem(ItemCreateDto dto) {
-        userRepository.findById(dto.getOwnerId())
-                .orElseThrow(() -> new NotFoundException("User with id " + dto.getOwnerId() + " not found"));
+        ifUserExists(dto.getOwnerId());
         Item item = repository.save(mapper.createDtoToItem(dto));
         return mapper.itemToDto(item);
     }
@@ -74,8 +73,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemResponseDto findById(long id, long userId) {
-        Item item = ifExists(id)
-                .orElseThrow(() -> new NotFoundException("Item with id " + id + " not found"));
+        Item item = ifItemExists(id);
 
         ItemResponseDto dto = mapper.itemToDto(item);
 
@@ -98,8 +96,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public ItemResponseDto update(long ownerId, long itemId, ItemUpdateDto updatedDto) {
-        Item existing = ifExists(itemId)
-                .orElseThrow(() -> new NotFoundException("Item with id " + itemId + " not found"));
+        Item existing = ifItemExists(itemId);
         if (!Objects.equals(existing.getOwnerId(), ownerId)) {
             throw new NotFoundException("User with id " + ownerId + " is not the owner of this item");
         }
@@ -123,11 +120,9 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public CommentDto addComment(Long itemId, Long authorId, CommentCreateDto dto) {
         LocalDateTime now = LocalDateTime.now();
-        Item item = repository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException("Item with id " + itemId + " not found"));
+        Item item = ifItemExists(itemId);
 
-        User author = userRepository.findById(authorId)
-                .orElseThrow(() -> new NotFoundException("User with id " + authorId + " not found"));
+        User author = ifUserExists(authorId);
 
         boolean hasPastBooking = bookingRepository
                 .findByItemIdAndRenterIdAndEndTimeBefore(itemId, authorId, now)
@@ -189,7 +184,13 @@ public class ItemServiceImpl implements ItemService {
                 ));
     }
 
-    private Optional<Item> ifExists(long id) {
-        return Optional.ofNullable(repository.findById(id));
+    private Item ifItemExists(long id) {
+        return Optional.ofNullable(repository.findById(id))
+                .orElseThrow(() -> new NotFoundException("Item with id " + id + " not found"));
+    }
+
+    private User ifUserExists(long id) {
+        return Optional.ofNullable(userRepository.findById(id))
+                .orElseThrow(() -> new NotFoundException("Item with id " + id + " not found"));
     }
 }

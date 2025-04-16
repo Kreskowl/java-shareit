@@ -1,13 +1,13 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.handlers.itemsBooking.BookingByItemQueryChain;
+import ru.practicum.shareit.booking.handlers.userBooking.BookingQueryChain;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
-import ru.practicum.shareit.booking.mapper.BookingStateMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingState;
 import ru.practicum.shareit.booking.model.Status;
@@ -19,18 +19,22 @@ import ru.practicum.shareit.item.dto.ItemBookDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.dto.UserBookDto;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BookingServiceImpl implements BookingService {
+    private final BookingQueryChain queryChain;
+    private final BookingByItemQueryChain bookingByItemQueryChain;
     private final BookingRepository storage;
     private final ItemRepository itemRepository;
     private final BookingMapper bookingMapper;
@@ -39,21 +43,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingDto createBooking(BookingCreateDto dto, Long userId) {
-        Item item;
-        try {
-            item = (itemRepository.findById(dto.getItemId())
-                    .orElseThrow(() -> new NotFoundException("Item with id " + dto.getItemId() + " not found")));
-
-        } catch (DataIntegrityViolationException itemException) {
-            throw new NotFoundException("Item with id " + dto.getItemId() + " not found");
-        }
-
-        try {
-            userRepository.findById(userId)
-                    .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
-        } catch (DataIntegrityViolationException userException) {
-            throw new NotFoundException("User with id " + userId + " not found");
-        }
+        Item item = ifItemExists(dto.getItemId());
+        ifUserExists(userId);
 
         if (!item.getAvailable()) {
             throw new ValidationException("Item with id " + item.getId() + " is not available for booking");
@@ -80,8 +71,7 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = storage.findById(id)
                 .orElseThrow(() -> new NotFoundException("Booking with id " + id + " not found"));
 
-        Item item = (itemRepository.findById(booking.getItemId())
-                .orElseThrow(() -> new NotFoundException("Item with id " + id + " not found")));
+        Item item = ifItemExists(booking.getItemId());
         Booking updatedBooking = storage.save(booking);
         BookingDto result = bookingMapper.bookingToDto(updatedBooking);
         result.setItem(ItemBookDto.builder()
@@ -95,26 +85,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDto> getAllCurrentBookings(Long userId, BookingState state) {
         LocalDateTime now = LocalDateTime.now();
-        List<Booking> bookings;
 
-        switch (state) {
-            case CURRENT ->
-                    bookings = storage.findByRenterIdAndStartTimeBeforeAndEndTimeAfterOrderByStartTimeDesc(userId, now, now);
-            case PAST -> bookings = storage.findByRenterIdAndEndTimeBeforeOrderByStartTimeDesc(userId, now);
-            case FUTURE -> bookings = storage.findByRenterIdAndStartTimeAfterOrderByStartTimeDesc(userId, now);
-            case ALL -> bookings = storage.findByRenterIdOrderByStartTimeDesc(userId);
-            default -> {
-                Status status = BookingStateMapper.toStatus(state)
-                        .orElseThrow(() -> new IllegalArgumentException("Unknown booking state: " + state));
-                bookings = storage.findByRenterIdAndStatusOrderByStartTimeDesc(userId, status);
-            }
-        }
+        List<Booking> bookings = queryChain.getBookings(userId, state, now);
 
         return bookings.stream()
                 .map(booking -> {
                     BookingDto dto = bookingMapper.bookingToDto(booking);
-                    Item item = itemRepository.findById(booking.getItemId())
-                            .orElseThrow(() -> new NotFoundException("Item not found"));
+                    Item item = ifItemExists(booking.getItemId());
                     dto.setItem(ItemBookDto.builder()
                             .id(item.getId())
                             .name(item.getName())
@@ -126,36 +103,18 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getAllBookedItems(Long ownerId, BookingState state) {
-        try {
-            userRepository.findById(ownerId)
-                    .orElseThrow(() -> new NotFoundException("User with id " + ownerId + " not found"));
-        } catch (DataIntegrityViolationException userException) {
-            throw new NotFoundException("User with id " + ownerId + " not found");
-        }
+        ifUserExists(ownerId);
 
         List<Long> itemIds = itemRepository.findAllByOwnerId(ownerId).stream()
                 .map(Item::getId)
-                .collect(Collectors.toList());
+                .toList();
 
         if (itemIds.isEmpty()) {
             return Collections.emptyList();
         }
 
         LocalDateTime now = LocalDateTime.now();
-        List<Booking> bookings;
-
-        switch (state) {
-            case CURRENT ->
-                    bookings = storage.findAllByItemIdInAndStartTimeBeforeAndEndTimeAfterOrderByStartTimeDesc(itemIds, now, now);
-            case PAST -> bookings = storage.findAllByItemIdInAndEndTimeBeforeOrderByStartTimeDesc(itemIds, now);
-            case FUTURE -> bookings = storage.findAllByItemIdInAndStartTimeAfterOrderByStartTimeDesc(itemIds, now);
-            case ALL -> bookings = storage.findAllByItemIdInOrderByStartTimeDesc(itemIds);
-            default -> {
-                Status status = BookingStateMapper.toStatus(state)
-                        .orElseThrow(() -> new IllegalArgumentException("Unknown booking state: " + state));
-                bookings = storage.findAllByItemIdInAndStatusOrderByStartTimeDesc(itemIds, status);
-            }
-        }
+        List<Booking> bookings = bookingByItemQueryChain.getBookings(itemIds, state, now);
 
         return bookings.stream()
                 .map(bookingMapper::bookingToDto)
@@ -173,10 +132,7 @@ public class BookingServiceImpl implements BookingService {
     public BookingDto updateStatusByOwner(long bookingId, long ownerId, boolean approved) {
         Booking booking = storage.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("Booking with id " + bookingId + " not found"));
-
-        Item item = itemRepository.findById(booking.getItemId())
-                .orElseThrow(() -> new NotFoundException("Item with id " + booking.getItemId() + " not found"));
-
+        Item item = ifItemExists(booking.getItemId());
 
         if (!Objects.equals(item.getOwnerId(), ownerId)) {
             throw new ForbiddenException("User with id " + ownerId + " is not the owner of this item");
@@ -191,6 +147,16 @@ public class BookingServiceImpl implements BookingService {
                 .name(item.getName())
                 .build());
         return result;
+    }
+
+    private Item ifItemExists(long itemId) {
+        return Optional.ofNullable(itemRepository.findById(itemId))
+                .orElseThrow(() -> new NotFoundException("Item with id " + itemId + " not found"));
+    }
+
+    private User ifUserExists(long userId) {
+        return Optional.ofNullable(userRepository.findById(userId))
+                .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
     }
 
 }
