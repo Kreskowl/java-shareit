@@ -37,7 +37,7 @@ public class BookingController {
     public BookingDto createBooking(
             @RequestHeader(UserIdHeader.USER_ID_HEADER) Long userId,
             @RequestBody @Valid BookingCreateDto dto) {
-        log.info("received dto" + dto);
+        log.info("Received DTO: {}", dto);
         return service.createBooking(dto, userId);
     }
 
