@@ -11,6 +11,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,8 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findById(long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        User user = ifUserExists(id);
         return mapper.userToDto(user);
     }
 
@@ -51,9 +51,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto update(long id, UserUpdateDto dto) {
-        User existing = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        User existing = ifUserExists(id);
         mapper.updateDtoToUser(dto, existing);
         return mapper.userToDto(existing);
+    }
+
+    private User ifUserExists(long id) {
+        return Optional.ofNullable(userRepository.findById(id))
+                .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
     }
 }
