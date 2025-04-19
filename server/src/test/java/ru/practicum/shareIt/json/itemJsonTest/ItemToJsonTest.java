@@ -33,14 +33,14 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     private JacksonTester<ItemCreateDto> jsonItemCreateTesting;
     @Autowired
     private JacksonTester<ItemResponseDto> jsonItemResponseTesting;
-    
+
     @Test
     void shouldSerializeCommentCreateDto() throws Exception {
         CommentCreateDto dto = CommentCreateDto.builder().text("test").build();
         JsonContent<CommentCreateDto> json = jsonCreateCommentTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.text").isEqualTo("test");
     }
-    
+
     @Test
     void shouldSerializeCommentDto() throws Exception {
         CommentDto dto = CommentDto.builder().id(COMMENT_ID).text("test").itemId(ITEM_ID).authorName("Bob").created(CREATED).build();
@@ -51,7 +51,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathStringValue("$.authorName").isEqualTo("Bob");
         assertThat(json).extractingJsonPathStringValue("$.created").isEqualTo("2025-05-19T05:00:00");
     }
-    
+
     @Test
     void shouldSerializeItemCreateDto() throws Exception {
         ItemCreateDto dto = ItemCreateDto.builder().name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).build();
@@ -62,7 +62,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathBooleanValue("$.available").isTrue();
         assertThat(json).extractingJsonPathNumberValue("$.requestId").isEqualTo(REQUEST_ID.intValue());
     }
-    
+
     @Test
     void shouldSerializeItemResponseDto() throws Exception {
         ItemResponseDto dto = ItemResponseDto.builder().id(ITEM_ID).name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).comments(List.of()).lastBooking(new BookingShortDto(BOOKING_ID, USER_ID)).nextBooking(new BookingShortDto(BOOKING_ID, USER_ID)).build();
@@ -79,18 +79,18 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathNumberValue("$.nextBooking.id").isEqualTo(BOOKING_ID.intValue());
         assertThat(json).extractingJsonPathNumberValue("$.nextBooking.bookerId").isEqualTo(USER_ID.intValue());
     }
-    
+
     @Test
     void shouldDeserializeCommentCreateDto() throws Exception {
         String json = """
                 {
-                    "text": "test"
-                }
+                    "text": "test
+                "}
                 """;
         CommentCreateDto dto = jsonCreateCommentTesting.parseObject(json);
         assertThat(dto.getText()).isEqualTo("test");
     }
-    
+
     @Test
     void shouldDeserializeCommentDto() throws Exception {
         String json = """
@@ -109,7 +109,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
         assertThat(dto.getAuthorName()).isEqualTo("Bob");
         assertThat(dto.getCreated()).isEqualTo(CREATED);
     }
-    
+
     @Test
     void shouldDeserializeItemCreateDto() throws Exception {
         String json = """
@@ -128,22 +128,22 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
         assertThat(dto.getAvailable()).isTrue();
         assertThat(dto.getRequestId()).isEqualTo(5L);
     }
-    
+
     @Test
     void shouldDeserializeItemResponseDto() throws Exception {
         String json = """
-                {
-                    "id": 1,
-                    "name": "drill",
-                    "description": "fancy",
-                    "ownerId": 1,
-                    "available": true,
-                    "requestId": 5,
-                    "comments": [],
-                    "lastBooking": { "id": 1, "bookerId": 1 },
-                    "nextBooking": { "id": 1, "bookerId": 1 }
-                }
-                """;
+    {
+        "id": 1,
+        "name": "drill",
+        "description": "fancy",
+        "ownerId": 1,
+        "available": true,
+        "requestId": 5,
+        "comments": [],
+        "lastBooking": { "id": 1, "bookerId": 1 },
+        "nextBooking": { "id": 1, "bookerId": 1 }
+    }
+    """;
         ItemResponseDto dto = jsonItemResponseTesting.parseObject(json);
         assertThat(dto.getId()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("drill");
