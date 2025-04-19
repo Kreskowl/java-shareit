@@ -27,14 +27,7 @@ class BookingMapperTest {
 
     @Test
     void shouldMapToBookingDto() {
-        Booking booking = Booking.builder()
-                .id(BOOKING_ID)
-                .startTime(START)
-                .endTime(END)
-                .itemId(ITEM_ID)
-                .renterId(USER_ID)
-                .status(Status.WAITING)
-                .build();
+        Booking booking = Booking.builder().id(BOOKING_ID).startTime(START).endTime(END).itemId(ITEM_ID).renterId(USER_ID).status(Status.WAITING).build();
 
         BookingDto dto = mapper.bookingToDto(booking);
 

@@ -32,14 +32,7 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeBookingDto() throws Exception {
-        BookingDto dto = BookingDto.builder()
-                .id(BOOKING_ID)
-                .item(new ItemBookDto(ITEM_ID, "Hammer"))
-                .booker(new UserBookDto(USER_ID))
-                .start(START)
-                .end(END)
-                .status(Status.APPROVED)
-                .build();
+        BookingDto dto = BookingDto.builder().id(BOOKING_ID).item(new ItemBookDto(ITEM_ID, "Hammer")).booker(new UserBookDto(USER_ID)).start(START).end(END).status(Status.APPROVED).build();
 
         JsonContent<BookingDto> json = jsonBookingTester.write(dto);
 

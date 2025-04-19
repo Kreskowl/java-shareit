@@ -29,9 +29,7 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeItemRequestCreateDto() throws Exception {
-        ItemRequestCreateDto dto = ItemRequestCreateDto.builder()
-                .description("test")
-                .build();
+        ItemRequestCreateDto dto = ItemRequestCreateDto.builder().description("test").build();
         JsonContent<ItemRequestCreateDto> json = jsonRequestCreateTesting.write(dto);
 
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("test");
@@ -39,14 +37,7 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeItemRequestDto() throws Exception {
-        ItemRequestDto dto = ItemRequestDto.builder()
-                .id(REQUEST_ID)
-                .description("test")
-                .requesterId(USER_ID)
-                .created(CREATED)
-                .owner(new UserBookDto(USER_ID))
-                .items(List.of())
-                .build();
+        ItemRequestDto dto = ItemRequestDto.builder().id(REQUEST_ID).description("test").requesterId(USER_ID).created(CREATED).owner(new UserBookDto(USER_ID)).items(List.of()).build();
         JsonContent<ItemRequestDto> json = jsonRequestResponseTesting.write(dto);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(REQUEST_ID.intValue());

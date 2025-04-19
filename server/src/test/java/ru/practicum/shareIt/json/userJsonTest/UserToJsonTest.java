@@ -25,10 +25,7 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeUserCreateDto() throws Exception {
-        UserCreateDto dto = UserCreateDto.builder()
-                .name("Test")
-                .email("test@index.ru")
-                .build();
+        UserCreateDto dto = UserCreateDto.builder().name("Test").email("test@index.ru").build();
         JsonContent<UserCreateDto> json = jsonUserCreateTesting.write(dto);
 
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");
@@ -37,11 +34,7 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeUserDto() throws Exception {
-        UserDto dto = UserDto.builder()
-                .id(USER_ID)
-                .name("Test")
-                .email("test@index.ru")
-                .build();
+        UserDto dto = UserDto.builder().id(USER_ID).name("Test").email("test@index.ru").build();
         JsonContent<UserDto> json = jsonUserResponseTesting.write(dto);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(USER_ID.intValue());
@@ -51,10 +44,7 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeUserUpdateDto() throws Exception {
-        UserUpdateDto dto = UserUpdateDto.builder()
-                .name("Test")
-                .email("test@index.ru")
-                .build();
+        UserUpdateDto dto = UserUpdateDto.builder().name("Test").email("test@index.ru").build();
         JsonContent<UserUpdateDto> json = jsonUserUpdateTesting.write(dto);
 
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");

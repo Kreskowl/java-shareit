@@ -37,9 +37,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeCommentCreateDto() throws Exception {
-        CommentCreateDto dto = CommentCreateDto.builder()
-                .text("test")
-                .build();
+        CommentCreateDto dto = CommentCreateDto.builder().text("test").build();
         JsonContent<CommentCreateDto> json = jsonCreateCommentTesting.write(dto);
 
         assertThat(json).extractingJsonPathStringValue("$.text").isEqualTo("test");
@@ -47,13 +45,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeCommentDto() throws Exception {
-        CommentDto dto = CommentDto.builder()
-                .id(COMMENT_ID)
-                .text("test")
-                .itemId(ITEM_ID)
-                .authorName("Bob")
-                .created(CREATED)
-                .build();
+        CommentDto dto = CommentDto.builder().id(COMMENT_ID).text("test").itemId(ITEM_ID).authorName("Bob").created(CREATED).build();
         JsonContent<CommentDto> json = jsonCommentTesting.write(dto);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(COMMENT_ID.intValue());
@@ -65,13 +57,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeItemCreateDto() throws Exception {
-        ItemCreateDto dto = ItemCreateDto.builder()
-                .name("drill")
-                .description("fancy")
-                .ownerId(USER_ID)
-                .available(true)
-                .requestId(REQUEST_ID)
-                .build();
+        ItemCreateDto dto = ItemCreateDto.builder().name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).build();
         JsonContent<ItemCreateDto> json = jsonItemCreateTesting.write(dto);
 
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("drill");
@@ -83,17 +69,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeItemResponseDto() throws Exception {
-        ItemResponseDto dto = ItemResponseDto.builder()
-                .id(ITEM_ID)
-                .name("drill")
-                .description("fancy")
-                .ownerId(USER_ID)
-                .available(true)
-                .requestId(REQUEST_ID)
-                .comments(List.of())
-                .lastBooking(new BookingShortDto(BOOKING_ID, USER_ID))
-                .nextBooking(new BookingShortDto(BOOKING_ID, USER_ID))
-                .build();
+        ItemResponseDto dto = ItemResponseDto.builder().id(ITEM_ID).name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).comments(List.of()).lastBooking(new BookingShortDto(BOOKING_ID, USER_ID)).nextBooking(new BookingShortDto(BOOKING_ID, USER_ID)).build();
         JsonContent<ItemResponseDto> json = jsonItemResponseTesting.write(dto);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(ITEM_ID.intValue());
