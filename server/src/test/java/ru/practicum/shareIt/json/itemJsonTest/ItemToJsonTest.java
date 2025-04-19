@@ -88,9 +88,11 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeCommentCreateDto() throws Exception {
         String json = """
+        
         {
             "text": "test"
         }
+        
         """;
 
         CommentCreateDto dto = jsonCreateCommentTesting.parseObject(json);
@@ -100,6 +102,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeCommentDto() throws Exception {
         String json = """
+        
         {
             "id": 1,
             "text": "test",
@@ -107,6 +110,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
             "authorName": "Bob",
             "created": "2025-05-19T05:00:00"
         }
+        
         """;
 
         CommentDto dto = jsonCommentTesting.parseObject(json);
@@ -120,6 +124,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemCreateDto() throws Exception {
         String json = """
+        
         {
             "name": "drill",
             "description": "fancy",
@@ -127,6 +132,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
             "available": true,
             "requestId": 5
         }
+        
         """;
 
         ItemCreateDto dto = jsonItemCreateTesting.parseObject(json);
@@ -140,6 +146,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemResponseDto() throws Exception {
         String json = """
+        
         {
             "id": 1,
             "name": "drill",
@@ -151,6 +158,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
             "lastBooking": { "id": 1, "bookerId": 1 },
             "nextBooking": { "id": 1, "bookerId": 1 }
         }
+        
         """;
 
         ItemResponseDto dto = jsonItemResponseTesting.parseObject(json);
