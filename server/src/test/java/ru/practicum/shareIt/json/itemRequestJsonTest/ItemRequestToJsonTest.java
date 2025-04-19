@@ -17,15 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
 public class ItemRequestToJsonTest extends BaseDtoJsonTest {
+    private static final Long REQUEST_ID = 1L;
+    private static final Long USER_ID = 1L;
+    private static final LocalDateTime CREATED = LocalDateTime.of(2025, 5, 19, 5, 0);
     @Autowired
     private JacksonTester<ItemRequestCreateDto> jsonRequestCreateTesting;
     @Autowired
     private JacksonTester<ItemRequestDto> jsonRequestResponseTesting;
-
-    private static final Long REQUEST_ID = 1L;
-    private static final Long USER_ID = 1L;
-    private static final LocalDateTime CREATED = LocalDateTime.of(2025, 5, 19, 5, 0);
-
 
     @Test
     void shouldSerializeItemRequestCreateDto() throws Exception {

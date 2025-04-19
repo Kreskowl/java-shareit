@@ -19,6 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
 public class ItemToJsonTest extends BaseDtoJsonTest {
+    private static final Long USER_ID = 1L;
+    private static final Long ITEM_ID = 1L;
+    private static final Long COMMENT_ID = 1L;
+    private static final Long REQUEST_ID = 1L;
+    private static final Long BOOKING_ID = 1L;
+    private static final LocalDateTime CREATED = LocalDateTime.of(2025, 5, 19, 5, 0);
     @Autowired
     private JacksonTester<CommentCreateDto> jsonCreateCommentTesting;
     @Autowired
@@ -27,13 +33,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     private JacksonTester<ItemCreateDto> jsonItemCreateTesting;
     @Autowired
     private JacksonTester<ItemResponseDto> jsonItemResponseTesting;
-
-    private static final Long USER_ID = 1L;
-    private static final Long ITEM_ID = 1L;
-    private static final Long COMMENT_ID = 1L;
-    private static final Long REQUEST_ID = 1L;
-    private static final Long BOOKING_ID = 1L;
-    private static final LocalDateTime CREATED = LocalDateTime.of(2025, 5, 19, 5, 0);
 
     @Test
     void shouldSerializeCommentCreateDto() throws Exception {

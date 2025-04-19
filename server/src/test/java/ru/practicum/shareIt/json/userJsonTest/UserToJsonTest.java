@@ -14,14 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
 public class UserToJsonTest extends BaseDtoJsonTest {
+    private static final Long USER_ID = 1L;
     @Autowired
     private JacksonTester<UserCreateDto> jsonUserCreateTesting;
     @Autowired
     private JacksonTester<UserDto> jsonUserResponseTesting;
     @Autowired
     private JacksonTester<UserUpdateDto> jsonUserUpdateTesting;
-
-    private static final Long USER_ID = 1L;
 
     @Test
     void shouldSerializeUserCreateDto() throws Exception {

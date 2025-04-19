@@ -18,17 +18,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
 public class BookingToJsonTest extends BaseDtoJsonTest {
-    @Autowired
-    private JacksonTester<BookingDto> jsonBookingTester;
-    @Autowired
-    private JacksonTester<BookingCreateDto> jsonCreateBookingTester;
-
-
     private static final LocalDateTime START = LocalDateTime.of(2024, 5, 1, 12, 0);
     private static final LocalDateTime END = LocalDateTime.of(2024, 5, 1, 15, 0);
     private static final Long USER_ID = 1L;
     private static final Long ITEM_ID = 1L;
     private static final Long BOOKING_ID = 1L;
+    @Autowired
+    private JacksonTester<BookingDto> jsonBookingTester;
+    @Autowired
+    private JacksonTester<BookingCreateDto> jsonCreateBookingTester;
 
     @Test
     void shouldSerializeBookingDto() throws Exception {

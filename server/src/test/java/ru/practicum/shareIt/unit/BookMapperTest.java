@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-class BookingMapperTest {
+class BookMapperTest {
 
     private final BookingMapper mapper = Mappers.getMapper(BookingMapper.class);
 
