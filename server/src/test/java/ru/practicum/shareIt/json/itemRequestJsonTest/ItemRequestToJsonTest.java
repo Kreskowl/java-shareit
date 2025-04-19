@@ -24,14 +24,14 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
     private JacksonTester<ItemRequestCreateDto> jsonRequestCreateTesting;
     @Autowired
     private JacksonTester<ItemRequestDto> jsonRequestResponseTesting;
-    
+
     @Test
     void shouldSerializeItemRequestCreateDto() throws Exception {
         ItemRequestCreateDto dto = ItemRequestCreateDto.builder().description("test").build();
         JsonContent<ItemRequestCreateDto> json = jsonRequestCreateTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("test");
     }
-    
+
     @Test
     void shouldSerializeItemRequestDto() throws Exception {
         ItemRequestDto dto = ItemRequestDto.builder().id(REQUEST_ID).description("test").requesterId(USER_ID).created(CREATED).owner(new UserBookDto(USER_ID)).items(List.of()).build();
@@ -43,7 +43,7 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathNumberValue("$.owner.id").isEqualTo(USER_ID.intValue());
         assertThat(json).extractingJsonPathArrayValue("$.items").isEmpty();
     }
-    
+
     @Test
     void shouldDeserializeItemRequestCreateDto() throws Exception {
         String json = """
@@ -55,7 +55,7 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
         ItemRequestCreateDto dto = jsonRequestCreateTesting.parseObject(json);
         assertThat(dto.getDescription()).isEqualTo("test");
     }
-    
+
     @Test
     void shouldDeserializeItemRequestDto() throws Exception {
         String json = """

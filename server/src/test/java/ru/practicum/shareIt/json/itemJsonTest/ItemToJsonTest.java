@@ -1,6 +1,5 @@
 package ru.practicum.shareIt.json.itemJsonTest;
 
-import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
@@ -94,7 +93,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     
     @Test
     void shouldDeserializeCommentDto() throws Exception {
-        @Language("JSON")
         String json = """
             {
             "id": "1",
