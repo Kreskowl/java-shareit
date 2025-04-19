@@ -65,7 +65,7 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldDeserializeBookingDto() throws Exception {
-        String json = """
+        String json = """    
                 {
                     "id": 1,
                     "item": {
@@ -86,7 +86,7 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldDeserializeBookingCreateDto() throws Exception {
-        String json = """
+        String json = """   
                 {
                     "itemId": 1,
                     "start": "2030-01-01T10:00:00",
