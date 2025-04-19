@@ -25,7 +25,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     private static final Long REQUEST_ID = 1L;
     private static final Long BOOKING_ID = 1L;
     private static final LocalDateTime CREATED = LocalDateTime.of(2025, 5, 19, 5, 0);
-    
     @Autowired
     private JacksonTester<CommentCreateDto> jsonCreateCommentTesting;
     @Autowired
@@ -38,7 +37,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldSerializeCommentCreateDto() throws Exception {
         CommentCreateDto dto = CommentCreateDto.builder().text("test").build();
-        
         JsonContent<CommentCreateDto> json = jsonCreateCommentTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.text").isEqualTo("test");
     }
@@ -46,9 +44,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldSerializeCommentDto() throws Exception {
         CommentDto dto = CommentDto.builder().id(COMMENT_ID).text("test").itemId(ITEM_ID).authorName("Bob").created(CREATED).build();
-        
         JsonContent<CommentDto> json = jsonCommentTesting.write(dto);
-        
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(COMMENT_ID.intValue());
         assertThat(json).extractingJsonPathStringValue("$.text").isEqualTo("test");
         assertThat(json).extractingJsonPathNumberValue("$.itemId").isEqualTo(ITEM_ID.intValue());
@@ -59,9 +55,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldSerializeItemCreateDto() throws Exception {
         ItemCreateDto dto = ItemCreateDto.builder().name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).build();
-        
         JsonContent<ItemCreateDto> json = jsonItemCreateTesting.write(dto);
-        
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("drill");
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("fancy");
         assertThat(json).extractingJsonPathNumberValue("$.ownerId").isEqualTo(USER_ID.intValue());
@@ -72,9 +66,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldSerializeItemResponseDto() throws Exception {
         ItemResponseDto dto = ItemResponseDto.builder().id(ITEM_ID).name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).comments(List.of()).lastBooking(new BookingShortDto(BOOKING_ID, USER_ID)).nextBooking(new BookingShortDto(BOOKING_ID, USER_ID)).build();
-        
         JsonContent<ItemResponseDto> json = jsonItemResponseTesting.write(dto);
-        
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(ITEM_ID.intValue());
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("drill");
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("fancy");
@@ -95,7 +87,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
               "text": "test"
             }
             """;
-        
         CommentCreateDto dto = jsonCreateCommentTesting.parseObject(json);
         assertThat(dto.getText()).isEqualTo("test");
     }
@@ -111,7 +102,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
             "created": "2025-05-19T05:00:00"
             }
             """;
-        
         CommentDto dto = jsonCommentTesting.parseObject(json);
         assertThat(dto.getId()).isEqualTo(1L);
         assertThat(dto.getText()).isEqualTo("test");
@@ -131,7 +121,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
             "requestId": 5
             }
             """;
-        
         ItemCreateDto dto = jsonItemCreateTesting.parseObject(json);
         assertThat(dto.getName()).isEqualTo("drill");
         assertThat(dto.getDescription()).isEqualTo("fancy");
@@ -155,7 +144,6 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
               "nextBooking": { "id": 1, "bookerId": 1 }
             }
             """;
-        
         ItemResponseDto dto = jsonItemResponseTesting.parseObject(json);
         assertThat(dto.getId()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("drill");
