@@ -16,10 +16,7 @@ import org.springframework.boot.test.json.JacksonTester;
 @AutoConfigureJsonTesters
 public abstract class BaseDtoJsonTest {
 
-    protected final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    protected final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS).setSerializationInclusion(JsonInclude.Include.NON_NULL);
     protected final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     @Autowired
     protected JacksonTester<Object> json;

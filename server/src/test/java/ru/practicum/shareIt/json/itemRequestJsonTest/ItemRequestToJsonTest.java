@@ -74,11 +74,11 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemRequestCreateDto() throws Exception {
         String json = """
-
-{
-  "description": "test"
-}
-""";
+                {
+                    "id": 1,
+                    "text": "test"
+                }
+                """;
 
         ItemRequestCreateDto dto = jsonRequestCreateTesting.parseObject(json);
 
@@ -88,16 +88,15 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemRequestDto() throws Exception {
         String json = """
-
-{
-  "id": 1,
-  "description": "test",
-  "requesterId": 1,
-  "created": "2025-05-19T05:00:00",
-  "owner": { "id": 1 },
-  "items": []
-}
-""";
+                {
+                  "id": 1,
+                  "description": "test",
+                  "requesterId": 1,
+                  "created": "2025-05-19T05:00:00",
+                  "owner": { "id": 1 },
+                  "items": []
+                }
+                """;
 
         ItemRequestDto dto = jsonRequestResponseTesting.parseObject(json);
 
