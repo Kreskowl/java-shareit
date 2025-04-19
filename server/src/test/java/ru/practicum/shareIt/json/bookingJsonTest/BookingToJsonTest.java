@@ -54,15 +54,15 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeBookingDto() throws Exception {
         String json = """
-{
-    "id": 1,
-    "item": { "id": 2, "name": "Hammer" },
-    "booker": { "id": 7 },
-    "start": "2030-01-01T10:00:00",
-    "end": "2030-01-01T12:00:00",
-    "status": "APPROVED"
-}
-""";
+                {
+                    "id": 1,
+                    "item": { "id": 2, "name": "Hammer" },
+                    "booker": { "id": 7 },
+                    "start": "2030-01-01T10:00:00",
+                    "end": "2030-01-01T12:00:00",
+                    "status": "APPROVED"
+                }
+                """;
 
         BookingDto dto = jsonBookingTester.parseObject(json);
         assertThat(dto.getStatus()).isEqualTo(Status.APPROVED);
@@ -71,12 +71,12 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeBookingCreateDto() throws Exception {
         String json = """
-{
-    "itemId": 1,
-    "start": "2030-01-01T10:00:00",
-    "end": "2030-01-01T12:00:00"
-}
-""";
+                {
+                    "itemId": 1,
+                    "start": "2030-01-01T10:00:00",
+                    "end": "2030-01-01T12:00:00"
+                }
+                """;
 
         BookingCreateDto dto = jsonCreateBookingTester.parseObject(json);
         assertThat(dto.getItemId()).isEqualTo(ITEM_ID);
@@ -86,15 +86,15 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeStatusEnum() throws Exception {
         String json = """
-{
-    "id": 1,
-    "item": { "id": 2, "name": "Hammer" },
-    "booker": { "id": 3 },
-    "start": "2030-01-01T10:00:00",
-    "end": "2030-01-01T12:00:00",
-    "status": "REJECTED"
-}
-""";
+                {
+                    "id": 1,
+                    "item": { "id": 2, "name": "Hammer" },
+                    "booker": { "id": 3 },
+                    "start": "2030-01-01T10:00:00",
+                    "end": "2030-01-01T12:00:00",
+                    "status": "REJECTED"
+                }
+                """;
 
         BookingDto dto = jsonBookingTester.parseObject(json);
         assertThat(dto.getStatus()).isEqualTo(Status.REJECTED);

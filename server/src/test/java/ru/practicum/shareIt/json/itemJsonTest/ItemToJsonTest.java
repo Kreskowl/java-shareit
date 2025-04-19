@@ -88,10 +88,10 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeCommentCreateDto() throws Exception {
         String json = """
-{
-    "text": "test"
-}
-""";
+                {
+                    "text": "test"
+                }
+                """;
 
         CommentCreateDto dto = jsonCreateCommentTesting.parseObject(json);
         assertThat(dto.getText()).isEqualTo("test");
@@ -100,14 +100,14 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeCommentDto() throws Exception {
         String json = """
-{
-    "id": 1,
-    "text": "test",
-    "itemId": 2,
-    "authorName": "Bob",
-    "created": "2025-05-19T05:00:00"
-}
-""";
+                {
+                    "id": 1,
+                    "text": "test",
+                    "itemId": 2,
+                    "authorName": "Bob",
+                    "created": "2025-05-19T05:00:00"
+                }
+                """;
 
         CommentDto dto = jsonCommentTesting.parseObject(json);
         assertThat(dto.getId()).isEqualTo(1L);
@@ -120,14 +120,14 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemCreateDto() throws Exception {
         String json = """
-{
-    "name": "drill",
-    "description": "fancy",
-    "ownerId": 1,
-    "available": true,
-    "requestId": 5
-}
-""";
+                {
+                    "name": "drill",
+                    "description": "fancy",
+                    "ownerId": 1,
+                    "available": true,
+                    "requestId": 5
+                }
+                """;
 
         ItemCreateDto dto = jsonItemCreateTesting.parseObject(json);
         assertThat(dto.getName()).isEqualTo("drill");
@@ -140,18 +140,18 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemResponseDto() throws Exception {
         String json = """
-{
-    "id": 1,
-    "name": "drill",
-    "description": "fancy",
-    "ownerId": 1,
-    "available": true,
-    "requestId": 5,
-    "comments": [],
-    "lastBooking": { "id": 1, "bookerId": 1 },
-    "nextBooking": { "id": 1, "bookerId": 1 }
-}
-""";
+                {
+                    "id": 1,
+                    "name": "drill",
+                    "description": "fancy",
+                    "ownerId": 1,
+                    "available": true,
+                    "requestId": 5,
+                    "comments": [],
+                    "lastBooking": { "id": 1, "bookerId": 1 },
+                    "nextBooking": { "id": 1, "bookerId": 1 }
+                }
+                """;
 
         ItemResponseDto dto = jsonItemResponseTesting.parseObject(json);
         assertThat(dto.getId()).isEqualTo(1L);
