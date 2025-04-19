@@ -6,8 +6,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.dto.booking.BookingCreateDto;
 import ru.practicum.shareit.dto.booking.BookingDto;
-import ru.practicum.shareit.dto.item.ItemBookDto;
-import ru.practicum.shareit.dto.user.UserBookDto;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BookingMapper {
@@ -24,14 +22,4 @@ public interface BookingMapper {
     @Mapping(source = "startTime", target = "start")
     @Mapping(source = "endTime", target = "end")
     BookingDto bookingToDto(Booking booking);
-
-    default ItemBookDto mapItem(Long id, String name) {
-        if (id == null) return null;
-        return ItemBookDto.builder().id(id).name(name).build();
-    }
-
-    default UserBookDto mapUser(Long id) {
-        if (id == null) return null;
-        return UserBookDto.builder().id(id).build();
-    }
 }

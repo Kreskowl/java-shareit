@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.dto.user.UserCreateDto;
 import ru.practicum.shareit.dto.user.UserDto;
 import ru.practicum.shareit.dto.user.UserUpdateDto;
+import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto createUser(UserCreateDto dto) {
+        checkEmailDuplicate(dto.getEmail());
         User user = userRepository.save(mapper.createDtoToUser(dto));
         return mapper.userToDto(user);
     }
@@ -52,6 +54,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto update(long id, UserUpdateDto dto) {
         User existing = ifUserExists(id);
+        checkEmailDuplicate(dto.getEmail());
         mapper.updateDtoToUser(dto, existing);
         return mapper.userToDto(existing);
     }
@@ -59,5 +62,11 @@ public class UserServiceImpl implements UserService {
     private User ifUserExists(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+    }
+
+    private void checkEmailDuplicate(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new ConflictException("Email already exists: " + email);
+        }
     }
 }

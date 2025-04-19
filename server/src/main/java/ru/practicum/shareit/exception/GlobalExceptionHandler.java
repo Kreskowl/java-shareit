@@ -79,17 +79,6 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler(RepositoryException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleRepositoryException(RepositoryException exception) {
-        logger.error("Error: {}", exception.getMessage(), exception);
-        return new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Repository error",
-                exception.getMessage()
-        );
-    }
-
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleConstraintViolationException(ConstraintViolationException exception) {
