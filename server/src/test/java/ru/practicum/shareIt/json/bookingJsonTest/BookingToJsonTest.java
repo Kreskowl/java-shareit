@@ -49,7 +49,6 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathStringValue("$.end")
                 .isEqualTo("2024-05-01T15:00:00");
     }
-
     @Test
     void shouldSerializeBookingCreateDto() throws Exception {
         BookingCreateDto dto = new BookingCreateDto(ITEM_ID, START, END);
@@ -61,7 +60,6 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathStringValue("$.end")
                 .isEqualTo("2024-05-01T15:00:00");
     }
-
     @Test
     void shouldDeserializeBookingDto() throws Exception {
         String json = """
@@ -82,7 +80,6 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
         BookingDto dto = jsonBookingTester.parseObject(json);
         assertThat(dto.getStatus()).isEqualTo(Status.APPROVED);
     }
-
     @Test
     void shouldDeserializeBookingCreateDto() throws Exception {
         String json = """
@@ -96,7 +93,6 @@ public class BookingToJsonTest extends BaseDtoJsonTest {
         assertThat(dto.getItemId()).isEqualTo(ITEM_ID);
         assertThat(dto.getStart()).isEqualTo(LocalDateTime.of(2030, 1, 1, 10, 0));
     }
-
     @Test
     void shouldDeserializeStatusEnum() throws Exception {
         String json = """

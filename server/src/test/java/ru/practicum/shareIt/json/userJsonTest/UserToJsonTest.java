@@ -21,7 +21,6 @@ public class UserToJsonTest extends BaseDtoJsonTest {
     private JacksonTester<UserDto> jsonUserResponseTesting;
     @Autowired
     private JacksonTester<UserUpdateDto> jsonUserUpdateTesting;
-    
     @Test
     void shouldSerializeUserCreateDto() throws Exception {
         UserCreateDto dto = UserCreateDto.builder().name("Test").email("test@index.ru").build();
@@ -29,7 +28,6 @@ public class UserToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");
         assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@index.ru");
     }
-    
     @Test
     void shouldSerializeUserDto() throws Exception {
         UserDto dto = UserDto.builder().id(USER_ID).name("Test").email("test@index.ru").build();
@@ -38,7 +36,6 @@ public class UserToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");
         assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@index.ru");
     }
-    
     @Test
     void shouldSerializeUserUpdateDto() throws Exception {
         UserUpdateDto dto = UserUpdateDto.builder().name("Test").email("test@index.ru").build();
@@ -46,7 +43,6 @@ public class UserToJsonTest extends BaseDtoJsonTest {
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");
         assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@index.ru");
     }
-    
     @Test
     void shouldDeserializeUserCreateDto() throws Exception {
         String json = """
@@ -59,7 +55,6 @@ public class UserToJsonTest extends BaseDtoJsonTest {
         assertThat(dto.getName()).isEqualTo("Test");
         assertThat(dto.getEmail()).isEqualTo("test@index.ru");
     }
-    
     @Test
     void shouldDeserializeUserDto() throws Exception {
         String json = """
@@ -74,7 +69,6 @@ public class UserToJsonTest extends BaseDtoJsonTest {
         assertThat(dto.getName()).isEqualTo("Test");
         assertThat(dto.getEmail()).isEqualTo("test@index.ru");
     }
-    
     @Test
     void shouldDeserializeUserUpdateDto() throws Exception {
         String json = """
