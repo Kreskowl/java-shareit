@@ -2,6 +2,8 @@ package ru.practicum.shareIt.unit;
 
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.springframework.test.context.ContextConfiguration;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.item.CommentDto;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.model.Comment;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ContextConfiguration(classes = ShareItServer.class)
 class CommentMapperTest {
 
     private final CommentMapper mapper = Mappers.getMapper(CommentMapper.class);

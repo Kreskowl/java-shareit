@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
+import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.shareIt.json.BaseDtoJsonTest;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.request.ItemRequestCreateDto;
 import ru.practicum.shareit.dto.request.ItemRequestDto;
 import ru.practicum.shareit.dto.user.UserBookDto;
@@ -16,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
+@ContextConfiguration(classes = ShareItServer.class)
 public class ItemRequestToJsonTest extends BaseDtoJsonTest {
     private static final Long REQUEST_ID = 1L;
     private static final Long USER_ID = 1L;
@@ -48,8 +51,7 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
     void shouldDeserializeItemRequestCreateDto() throws Exception {
         String json = String.join("\n",
             "{",
-            "  \"id\": 1,",
-            "  \"text\": \"test\"",
+            "  \"description\": \"test\"",
             "}"
         );
         ItemRequestCreateDto dto = jsonRequestCreateTesting.parseObject(json);

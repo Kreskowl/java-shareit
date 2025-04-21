@@ -3,7 +3,9 @@ package ru.practicum.shareIt.integration.userIntegrationTest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.shareIt.integration.IntegrationTestBase;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.user.UserCreateDto;
 import ru.practicum.shareit.dto.user.UserDto;
 import ru.practicum.shareit.dto.user.UserUpdateDto;
@@ -16,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ContextConfiguration(classes = ShareItServer.class)
 public class UserServiceTest extends IntegrationTestBase {
 
     @Autowired

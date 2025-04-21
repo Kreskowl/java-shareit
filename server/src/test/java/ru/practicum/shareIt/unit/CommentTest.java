@@ -1,12 +1,15 @@
 package ru.practicum.shareIt.unit;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ContextConfiguration;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.item.model.Comment;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ContextConfiguration(classes = ShareItServer.class)
 class CommentTest {
 
     @Test

@@ -2,7 +2,9 @@ package ru.practicum.shareIt.integration.bookingIntegrationTest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.shareIt.integration.IntegrationTestBase;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.dto.booking.BookingCreateDto;
 import ru.practicum.shareit.dto.booking.BookingDto;
@@ -16,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ContextConfiguration(classes = ShareItServer.class)
 public class BookingServiceTests extends IntegrationTestBase {
     @Autowired
     private BookingService service;

@@ -2,7 +2,9 @@ package ru.practicum.shareIt.integration.itemRequestIntegrationTest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.shareIt.integration.IntegrationTestBase;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.request.ItemRequestCreateDto;
 import ru.practicum.shareit.dto.request.ItemRequestDto;
 import ru.practicum.shareit.item.model.Item;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ContextConfiguration(classes = ShareItServer.class)
 public class ItemRequestItegrationTest extends IntegrationTestBase {
     @Autowired
     private ItemRequestService service;

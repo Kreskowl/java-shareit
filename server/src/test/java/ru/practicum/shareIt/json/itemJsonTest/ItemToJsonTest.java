@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
+import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.shareIt.json.BaseDtoJsonTest;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.booking.BookingShortDto;
 import ru.practicum.shareit.dto.item.CommentCreateDto;
 import ru.practicum.shareit.dto.item.CommentDto;
@@ -18,6 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
+@ContextConfiguration(classes = ShareItServer.class)
 public class ItemToJsonTest extends BaseDtoJsonTest {
     private static final Long USER_ID = 1L;
     private static final Long ITEM_ID = 1L;

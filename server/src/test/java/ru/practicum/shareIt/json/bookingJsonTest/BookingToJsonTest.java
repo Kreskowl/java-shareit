@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
+import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.shareIt.json.BaseDtoJsonTest;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.booking.BookingCreateDto;
 import ru.practicum.shareit.dto.booking.BookingDto;
 import ru.practicum.shareit.dto.booking.Status;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
+@ContextConfiguration(classes = ShareItServer.class)
 public class BookingToJsonTest extends BaseDtoJsonTest {
     private static final LocalDateTime START = LocalDateTime.of(2024, 5, 1, 12, 0);
     private static final LocalDateTime END = LocalDateTime.of(2024, 5, 1, 15, 0);
