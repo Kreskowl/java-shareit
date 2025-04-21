@@ -101,14 +101,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>repackage</id>
-						<phase>none</phase> <!-- отключаем -->
-					</execution>
-				</executions>
 				<configuration>
-					<mainClass>ru.practicum.shareit.ShareItServer</mainClass> <!-- укажи свой главный класс -->
+					<layers>
+						<enabled>true</enabled>
+					</layers>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
