@@ -83,7 +83,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeCommentCreateDto() throws Exception {
         String json = """
-                {
+                 {
                     "text": "test
                 "}
                 """;
@@ -94,7 +94,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeCommentDto() throws Exception {
         String json = """
-                {
+                 {
                     "id": "1",
                     "text": "test",
                     "itemId": 2,
@@ -113,7 +113,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemCreateDto() throws Exception {
         String json = """
-                {
+                 {
                     "name": "drill",
                     "description": "fancy",
                     "ownerId": 1,
@@ -132,7 +132,7 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeItemResponseDto() throws Exception {
         String json = """
-    {
+     {
         "id": 1,
         "name": "drill",
         "description": "fancy",

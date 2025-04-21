@@ -50,7 +50,7 @@ public class UserToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeUserCreateDto() throws Exception {
         String json = """
-            {
+             {
                 "name": "Test",
                 "email": "test@index.ru"
             }
@@ -63,7 +63,7 @@ public class UserToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeUserDto() throws Exception {
         String json = """
-    {
+     {
         "id": 1,
         "name": "Test",
         "email": "test@index.ru"
@@ -78,7 +78,7 @@ public class UserToJsonTest extends BaseDtoJsonTest {
     @Test
     void shouldDeserializeUserUpdateDto() throws Exception {
         String json = """
-    {
+     {
         "name": "Test",
         "email": "test@index.ru"
     }
