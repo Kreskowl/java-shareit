@@ -49,12 +49,12 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldDeserializeUserCreateDto() throws Exception {
-        String json = """
-             {
-                "name": "Test",
-                "email": "test@index.ru"
-            }
-            """;
+        String json = String.join("\n",
+            "{",
+            "  \"name\": \"Test\",",
+            "  \"email\": \"test@index.ru\"",
+            "}"
+        );
         UserCreateDto dto = jsonUserCreateTesting.parseObject(json);
         assertThat(dto.getName()).isEqualTo("Test");
         assertThat(dto.getEmail()).isEqualTo("test@index.ru");
@@ -62,13 +62,13 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldDeserializeUserDto() throws Exception {
-        String json = """
-     {
-        "id": 1,
-        "name": "Test",
-        "email": "test@index.ru"
-    }
-    """;
+        String json = String.join("\n",
+            "{",
+            "  \"id\": 1,",
+            "  \"name\": \"Test\",",
+            "  \"email\": \"test@index.ru\"",
+            "}"
+        );
         UserDto dto = jsonUserResponseTesting.parseObject(json);
         assertThat(dto.getId()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("Test");
@@ -77,12 +77,12 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldDeserializeUserUpdateDto() throws Exception {
-        String json = """
-     {
-        "name": "Test",
-        "email": "test@index.ru"
-    }
-    """;
+        String json = String.join("\n",
+            "{",
+            "  \"name\": \"Test\",",
+            "  \"email\": \"test@index.ru\"",
+            "}"
+        );
         UserUpdateDto dto = jsonUserUpdateTesting.parseObject(json);
         assertThat(dto.getName()).isEqualTo("Test");
         assertThat(dto.getEmail()).isEqualTo("test@index.ru");
