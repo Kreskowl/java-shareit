@@ -108,6 +108,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<mainClass>ru.practicum.shareit.ShareItServer</mainClass> <!-- укажи свой главный класс -->
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
