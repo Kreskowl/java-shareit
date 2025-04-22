@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
-import org.springframework.test.context.ContextConfiguration;
-import ru.practicum.shareit.json.BaseDtoJsonTest;
-import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.request.ItemRequestCreateDto;
 import ru.practicum.shareit.dto.request.ItemRequestDto;
 import ru.practicum.shareit.dto.user.UserBookDto;
@@ -18,8 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-@ContextConfiguration(classes = ShareItServer.class)
-public class ItemRequestToJsonTest extends BaseDtoJsonTest {
+public class ItemRequestToJsonTest {
     private static final Long REQUEST_ID = 1L;
     private static final Long USER_ID = 1L;
     private static final LocalDateTime CREATED = LocalDateTime.of(2025, 5, 19, 5, 0);
@@ -30,14 +26,23 @@ public class ItemRequestToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeItemRequestCreateDto() throws Exception {
-        ItemRequestCreateDto dto = ItemRequestCreateDto.builder().description("test").build();
+        ItemRequestCreateDto dto = ItemRequestCreateDto.builder()
+            .description("test")
+            .build();
         JsonContent<ItemRequestCreateDto> json = jsonRequestCreateTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("test");
     }
 
     @Test
     void shouldSerializeItemRequestDto() throws Exception {
-        ItemRequestDto dto = ItemRequestDto.builder().id(REQUEST_ID).description("test").requesterId(USER_ID).created(CREATED).owner(new UserBookDto(USER_ID)).items(List.of()).build();
+        ItemRequestDto dto = ItemRequestDto.builder()
+            .id(REQUEST_ID)
+            .description("test")
+            .requesterId(USER_ID)
+            .created(CREATED)
+            .owner(new UserBookDto(USER_ID))
+            .items(List.of())
+            .build();
         JsonContent<ItemRequestDto> json = jsonRequestResponseTesting.write(dto);
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(REQUEST_ID.intValue());
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("test");

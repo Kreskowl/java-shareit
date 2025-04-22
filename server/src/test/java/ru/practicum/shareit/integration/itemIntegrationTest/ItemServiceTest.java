@@ -24,8 +24,8 @@ public class ItemServiceTest extends IntegrationTestBase {
     private ItemService service;
     @Autowired
     private BookingService bookingService;
-    ItemCreateDto newItem;
-    CommentCreateDto comment;
+    private ItemCreateDto newItem;
+    private CommentCreateDto comment;
 
     @Test
     void shouldSaveToDB() {

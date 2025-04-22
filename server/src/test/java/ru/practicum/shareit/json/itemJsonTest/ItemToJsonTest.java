@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
-import org.springframework.test.context.ContextConfiguration;
-import ru.practicum.shareit.json.BaseDtoJsonTest;
-import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.booking.BookingShortDto;
 import ru.practicum.shareit.dto.item.CommentCreateDto;
 import ru.practicum.shareit.dto.item.CommentDto;
@@ -20,8 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-@ContextConfiguration(classes = ShareItServer.class)
-public class ItemToJsonTest extends BaseDtoJsonTest {
+public class ItemToJsonTest {
     private static final Long USER_ID = 1L;
     private static final Long ITEM_ID = 1L;
     private static final Long COMMENT_ID = 1L;
@@ -39,14 +35,21 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeCommentCreateDto() throws Exception {
-        CommentCreateDto dto = CommentCreateDto.builder().text("test").build();
+        CommentCreateDto dto = CommentCreateDto.builder()
+            .text("test")
+            .build();
         JsonContent<CommentCreateDto> json = jsonCreateCommentTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.text").isEqualTo("test");
     }
 
     @Test
     void shouldSerializeCommentDto() throws Exception {
-        CommentDto dto = CommentDto.builder().id(COMMENT_ID).text("test").itemId(ITEM_ID).authorName("Bob").created(CREATED).build();
+        CommentDto dto = CommentDto.builder()
+            .id(COMMENT_ID)
+            .text("test")
+            .itemId(ITEM_ID)
+            .authorName("Bob")
+            .created(CREATED).build();
         JsonContent<CommentDto> json = jsonCommentTesting.write(dto);
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(COMMENT_ID.intValue());
         assertThat(json).extractingJsonPathStringValue("$.text").isEqualTo("test");
@@ -57,7 +60,13 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeItemCreateDto() throws Exception {
-        ItemCreateDto dto = ItemCreateDto.builder().name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).build();
+        ItemCreateDto dto = ItemCreateDto.builder()
+            .name("drill")
+            .description("fancy")
+            .ownerId(USER_ID)
+            .available(true)
+            .requestId(REQUEST_ID)
+            .build();
         JsonContent<ItemCreateDto> json = jsonItemCreateTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("drill");
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("fancy");
@@ -68,7 +77,16 @@ public class ItemToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeItemResponseDto() throws Exception {
-        ItemResponseDto dto = ItemResponseDto.builder().id(ITEM_ID).name("drill").description("fancy").ownerId(USER_ID).available(true).requestId(REQUEST_ID).comments(List.of()).lastBooking(new BookingShortDto(BOOKING_ID, USER_ID)).nextBooking(new BookingShortDto(BOOKING_ID, USER_ID)).build();
+        ItemResponseDto dto = ItemResponseDto.builder()
+            .id(ITEM_ID)
+            .name("drill")
+            .description("fancy")
+            .ownerId(USER_ID)
+            .available(true)
+            .requestId(REQUEST_ID)
+            .comments(List.of())
+            .lastBooking(new BookingShortDto(BOOKING_ID, USER_ID))
+            .nextBooking(new BookingShortDto(BOOKING_ID, USER_ID)).build();
         JsonContent<ItemResponseDto> json = jsonItemResponseTesting.write(dto);
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(ITEM_ID.intValue());
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("drill");

@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
-import org.springframework.test.context.ContextConfiguration;
-import ru.practicum.shareit.json.BaseDtoJsonTest;
-import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.user.UserCreateDto;
 import ru.practicum.shareit.dto.user.UserDto;
 import ru.practicum.shareit.dto.user.UserUpdateDto;
@@ -15,8 +12,7 @@ import ru.practicum.shareit.dto.user.UserUpdateDto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-@ContextConfiguration(classes = ShareItServer.class)
-public class UserToJsonTest extends BaseDtoJsonTest {
+public class UserToJsonTest {
     private static final Long USER_ID = 1L;
     @Autowired
     private JacksonTester<UserCreateDto> jsonUserCreateTesting;
@@ -27,7 +23,10 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeUserCreateDto() throws Exception {
-        UserCreateDto dto = UserCreateDto.builder().name("Test").email("test@index.ru").build();
+        UserCreateDto dto = UserCreateDto.builder()
+            .name("Test")
+            .email("test@index.ru")
+            .build();
         JsonContent<UserCreateDto> json = jsonUserCreateTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");
         assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@index.ru");
@@ -35,7 +34,11 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeUserDto() throws Exception {
-        UserDto dto = UserDto.builder().id(USER_ID).name("Test").email("test@index.ru").build();
+        UserDto dto = UserDto.builder()
+            .id(USER_ID)
+            .name("Test")
+            .email("test@index.ru")
+            .build();
         JsonContent<UserDto> json = jsonUserResponseTesting.write(dto);
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(USER_ID.intValue());
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");
@@ -44,7 +47,10 @@ public class UserToJsonTest extends BaseDtoJsonTest {
 
     @Test
     void shouldSerializeUserUpdateDto() throws Exception {
-        UserUpdateDto dto = UserUpdateDto.builder().name("Test").email("test@index.ru").build();
+        UserUpdateDto dto = UserUpdateDto.builder()
+            .name("Test")
+            .email("test@index.ru")
+            .build();
         JsonContent<UserUpdateDto> json = jsonUserUpdateTesting.write(dto);
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test");
         assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@index.ru");

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.dto.user.UserCreateDto;
 import ru.practicum.shareit.dto.user.UserDto;
 import ru.practicum.shareit.dto.user.UserUpdateDto;
@@ -33,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
-@ContextConfiguration(classes = ShareItServer.class)
 class UserControllerTest {
 
     @Autowired

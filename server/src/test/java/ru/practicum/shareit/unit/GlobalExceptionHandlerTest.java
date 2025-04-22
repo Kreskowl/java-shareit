@@ -53,26 +53,36 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void shouldHandleNotFoundException() throws Exception {
-        mockMvc.perform(get("/notfound")).andExpect(status().isNotFound()).andExpect(jsonPath("$.message").value("Resource not found"));
+        mockMvc.perform(get("/notfound"))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.message").value("Resource not found"));
     }
 
     @Test
     void shouldHandleValidationException() throws Exception {
-        mockMvc.perform(get("/validation")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").value("Invalid input"));
+        mockMvc.perform(get("/validation"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("Invalid input"));
     }
 
     @Test
     void shouldHandleConflictException() throws Exception {
-        mockMvc.perform(get("/conflict")).andExpect(status().isConflict()).andExpect(jsonPath("$.message").value("Already exists"));
+        mockMvc.perform(get("/conflict"))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.message").value("Already exists"));
     }
 
     @Test
     void shouldHandleForbiddenException() throws Exception {
-        mockMvc.perform(get("/forbidden")).andExpect(status().isForbidden()).andExpect(jsonPath("$.message").value("You are not the owner"));
+        mockMvc.perform(get("/forbidden"))
+            .andExpect(status().isForbidden())
+            .andExpect(jsonPath("$.message").value("You are not the owner"));
     }
 
     @Test
     void shouldHandleThrowable() throws Exception {
-        mockMvc.perform(get("/throwable")).andExpect(status().isInternalServerError()).andExpect(jsonPath("$.message").value("Boom!"));
+        mockMvc.perform(get("/throwable"))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.message").value("Boom!"));
     }
 }

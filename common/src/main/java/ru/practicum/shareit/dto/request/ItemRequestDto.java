@@ -2,11 +2,7 @@ package ru.practicum.shareit.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.practicum.shareit.dto.item.ItemBookDto;
 import ru.practicum.shareit.dto.user.UserBookDto;
 
@@ -17,6 +13,7 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor
 public class ItemRequestDto {
     private Long id;
     @NotBlank

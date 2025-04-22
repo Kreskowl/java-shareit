@@ -20,14 +20,16 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(NotFoundException notFound) {
         logger.error("Error: {}", notFound.getMessage());
-        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), "Not Found", notFound.getMessage());
+        return new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+            "Not Found", notFound.getMessage());
     }
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationException(ValidationException validationException) {
         logger.error("Error: {}", validationException.getMessage());
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Bad request", validationException.getMessage());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+            "Bad request", validationException.getMessage());
     }
 
     @ExceptionHandler(ConflictException.class)
@@ -39,33 +41,40 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationException(MethodArgumentNotValidException exception) {
-        List<String> errorMessages = exception.getBindingResult().getFieldErrors().stream().map(error -> String.format("Field '%s': %s", error.getField(), error.getDefaultMessage())).collect(Collectors.toList());
+        List<String> errorMessages = exception.getBindingResult().getFieldErrors()
+            .stream()
+            .map(error ->
+                String.format("Field '%s': %s", error.getField(), error.getDefaultMessage()))
+            .collect(Collectors.toList());
 
         logger.error("Validation failed: {}", errorMessages);
 
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Validation failed", "One or more fields have validation errors.", errorMessages // Передаём детали
-        );
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Validation failed",
+            "One or more fields have validation errors.", errorMessages);
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleUnexpectedError(Throwable unexpectedError) {
         logger.error("Unexpected error occurred", unexpectedError);
-        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred. Please try again later.", unexpectedError.getMessage());
+        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "An unexpected error occurred. Please try again later.", unexpectedError.getMessage());
     }
 
     @ExceptionHandler(MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMissingHeader(MissingRequestHeaderException ex) {
         logger.error("Error {} ", ex.getMessage());
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Required header is missing: " + ex.getHeaderName(), ex.getMessage());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+            "Required header is missing: " + ex.getHeaderName(), ex.getMessage());
     }
 
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleForbiddenException(ForbiddenException forbiddenException) {
         logger.error("Forbidden: {} ", forbiddenException.getMessage());
-        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), "User is not the owner: ", forbiddenException.getMessage());
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(),
+            "User is not the owner: ", forbiddenException.getMessage());
     }
 }
 
